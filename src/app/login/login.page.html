@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login / Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-segment [(ngModel)]="mode">
+    <ion-segment-button value="login">Iniciar Sesión</ion-segment-button>
+    <ion-segment-button value="register">Registrarse</ion-segment-button>
+  </ion-segment>
+
+  <form (ngSubmit)="mode === 'login' ? login() : register()">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="mode === 'register'">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="name" name="name" required></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="mode === 'register'">
+      <ion-label>Foto de perfil</ion-label>
+      <ion-button (click)="takePhoto()" fill="outline">Tomar Foto</ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="photoService.photoBase64">
+      <ion-img [src]="'data:image/jpeg;base64,' + photoService.photoBase64"></ion-img>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top">
+      {{ mode === 'login' ? 'Iniciar Sesión' : 'Registrarse' }}
+    </ion-button>
+  </form>
+</ion-content>

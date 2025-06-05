@@ -1,20 +1,49 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <!-- Formulario para publicar -->
+  <ion-card>
+    <ion-card-header>
+      <ion-avatar *ngIf="user?.photoURL">
+        <img [src]="user.photoURL" />
+      </ion-avatar>
+      <ion-card-title>{{ user?.displayName }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-textarea
+        placeholder="Escribe una noticia..."
+        [(ngModel)]="content"
+      ></ion-textarea>
+
+      <ion-button expand="block" (click)="takePhoto()">
+        Tomar Foto
+      </ion-button>
+
+      <ion-img
+        *ngIf="photoService.photoBase64"
+        [src]="'data:image/jpeg;base64,' + photoService.photoBase64"
+        class="preview-img"
+      ></ion-img>
+
+      <ion-button
+        expand="block"
+        color="primary"
+        class="ion-margin-top"
+        (click)="postNews()"
+      >
+        Publicar Noticia
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de publicaciones -->
+  <ion-card *ngFor="let post of posts">
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-avatar slot="start" *ngIf="post.userPhoto">
